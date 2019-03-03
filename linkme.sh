@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in $HOME/dev/.[!.]*; do
+for file in $HOME/.dotfiles/.[!.]*; do
 
     link="$HOME/$(basename $file)"
     echo "$link"
@@ -8,7 +8,7 @@ for file in $HOME/dev/.[!.]*; do
     if [ -f "$link" ]; then
 
         if ! [ -L "$link" ]; then
-            mv -f "$link" "/tmp/$(basename $link)" 
+            mv -f "$link" "/tmp/$(basename $link)"
             echo "i am not a link and got moved"
         else
             rm "$link"
