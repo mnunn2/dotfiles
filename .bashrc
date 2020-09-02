@@ -10,14 +10,17 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth:erasedups
+export HISTCONTROL=ignoreboth:erasedups
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=2000
+HISTFILESIZE=4000
+
+# After each command, save and reload history
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -58,7 +61,8 @@ fi
 
 if [ "$color_prompt" = yes ]; then
     #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u\[\033[00;90m\]@\[\033[00;32m\]\h \[\033[00;94m\]\w \[\033[00;35m\]\$ \[\033[00m\]'
+    #PS1='${debian_chroot:+($debian_chroot)}\[\033[00;32m\]\u\[\033[00;90m\]@\[\033[00;32m\]\h \[\033[00;94m\]\w \[\033[00;35m\]\$ \[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[00;94m\]\w\[\033[00;35m\] \[\033[00m\]'
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -107,17 +111,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# powerline support
-#function _update_ps1() {
-#    PS1="$(/usr/local/powerline/powerline-shell.py $? 2> /dev/null)"
-#}
-#
-#if [ "$TERM" != "linux" ]; then
-#    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-#fi
-
 # promptline rather than powerline
-source ~/.shell_prompt.sh
+# source ~/.shell_prompt.sh
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -130,22 +125,31 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export NVM_DIR="/home/mike/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-export PATH="$PATH:$HOME/.composer/vendor/bin"
+# export NVM_DIR="/home/mike/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f /opt/google/google-cloud-sdk/path.bash.inc ]; then
-  source '/opt/google/google-cloud-sdk/path.bash.inc'
-fi
+# if [ -f /opt/google/google-cloud-sdk/path.bash.inc ]; then
+#   source '/opt/google/google-cloud-sdk/path.bash.inc'
+# fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f /opt/google/google-cloud-sdk/completion.bash.inc ]; then
-  source '/opt/google/google-cloud-sdk/completion.bash.inc'
-fi
+# if [ -f /opt/google/google-cloud-sdk/completion.bash.inc ]; then
+#   source '/opt/google/google-cloud-sdk/completion.bash.inc'
+# fi
 export PATH=$PATH:/usr/local/go/bin
 xcape -e 'Caps_Lock=Escape'
 #so as not to be disturbed by Ctrl-S ctrl-Q in terminals:
 stty -ixon
 
+# keychain config
+# eval `keychain --eval id_rsa mike_dharmachakra`  
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export PATH=/home/mike/.nvm/versions/node/v14.3.0/bin:/home/mike/bin:/opt/google/google-cloud-sdk/bin:/home/mike/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin:/home/mike/.composer/vendor/bin:/usr/local/go/bin:/home/mike/.fzf/bin:/usr/local/go/bin:~/.yarn/bin
+export GEM_HOME=~/.ruby/
+export PATH="$PATH:~/.ruby/bin"
+export FZF_DEFAULT_COMMAND='fdfind --type file --color=always'
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

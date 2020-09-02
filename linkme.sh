@@ -5,6 +5,10 @@ for file in $HOME/.dotfiles/.[!.]*; do
     link="$HOME/$(basename $file)"
     echo "$link"
 
+    if [ $(basename $file) == '.git' ]; then
+        continue;
+    fi
+
     if [ -f "$link" ]; then
 
         if ! [ -L "$link" ]; then

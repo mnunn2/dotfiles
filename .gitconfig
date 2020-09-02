@@ -1,0 +1,19 @@
+[user]
+	email = bonnie650@gmail.com
+	name = mnunn2
+[core]
+	editor = nvim
+[push]
+	default = simple
+[cola]
+	spellcheck = false
+[diff]
+	tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+  cmd = meld "$LOCAL" "$REMOTE"
+[merge]
+	tool = meld
+[mergetool "meld"]
+  cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"

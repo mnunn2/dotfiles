@@ -22,6 +22,8 @@ if [ -d "$HOME/bin" ] ; then
 fi
 export PATH=$PATH:/usr/local/go/bin
 
+export GSM_SKIP_SSH_AGENT_WORKAROUND=1
+
 # remap capslock to control and use xcape to map caps lock to esc when tapped                                                                                                                                                                                                                                                                                                                                                
 #setxkbmap -option caps:ctrl_modifier                                                                                                                                                                                                                                                                                                                                                                                         
 #xcape -e 'Caps_Lock=Escape' 

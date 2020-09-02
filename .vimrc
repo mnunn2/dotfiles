@@ -2,7 +2,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " vim plug
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/.local/share/vim/plugged')
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
@@ -17,6 +17,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/promptline.vim'
 " Plug 'edkolev/tmuxline.vim'
+Plug 'preservim/nerdtree'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " PHP stuff
 Plug 'StanAngeloff/php.vim'
@@ -97,11 +100,17 @@ nnoremap <C-p> :bprevious<CR>
 runtime macros/matchit.vim
 " vdebug config
 let g:vdebug_options = {
-\ 'break_on_open': 1,
-\ 'path_maps': {'/var/www/html': '/home/mike/dev/jdd/webdata'},
+\ 'break_on_open': 0,
 \ 'port': '9000',
-\ 'watch_window_style': 'compact'
+\ 'simplified_status': 0
 \ }
+
+" let g:vdebug_options = {
+" \ 'break_on_open': 0,
+" \ 'path_maps': {'/var/www/html/': '/home/mike/dharma/tbco/'},
+" \ 'port': '9000',
+" \ 'simplified_status': 0
+" \ }
 
 " emmet remap c-y to vim leader
 let g:user_emmet_leader_key='<C-Z>'
@@ -126,3 +135,5 @@ inoremap <m-;> <C-o>A;
 inoremap <m-l> <C-o>a
 "nnoremap ; :
 nnoremap Y y$
+map <leader>n :NERDTreeToggle<CR>
+map <leader>f :Files<CR>
