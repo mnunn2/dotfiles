@@ -1,139 +1,130 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+call plug#begin('~/.local/share/nvim/')
 
-" vim plug
-call plug#begin('~/.local/share/vim/plugged')
+Plug 'joonty/vdebug'
+
+Plug 'christoomey/vim-tmux-navigator'
+
+" colour scheme & status line
+Plug 'morhetz/gruvbox'
+" Plug 'vim-airline/vim-airline'
+Plug 'itchyny/lightline.vim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
-Plug 'git://git.wincent.com/command-t.git'
 Plug 'jiangmiao/auto-pairs'
 Plug 'git://github.com/tpope/vim-surround.git'
-" colour scheme
-Plug 'morhetz/gruvbox'
+Plug 'psliwka/vim-smoothie'
+Plug 'ludovicchabant/vim-gutentags'
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/promptline.vim'
-" Plug 'edkolev/tmuxline.vim'
+
+Plug 'jmckiern/vim-venter'
+
 Plug 'preservim/nerdtree'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'vimwiki/vimwiki'
+" Plug 'mzlogin/vim-markdown-toc'
+
 " PHP stuff
 Plug 'StanAngeloff/php.vim'
-Plug 'joonty/vdebug'
-" Plug 'joonty/vim-phpqa.git'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'git://github.com/majutsushi/tagbar.git'
 
 " html & javascript
 Plug 'othree/html5.vim'
-Plug 'https://github.com/pangloss/vim-javascript.git'
-Plug 'https://github.com/vim-syntastic/syntastic.git'
-
-" golang stuff
-Plug 'https://github.com/fatih/vim-go.git'
-
 Plug 'mattn/emmet-vim'
+" Plug 'https://github.com/pangloss/vim-javascript.git'
+Plug 'yuezk/vim-js'
+Plug 'storyn26383/vim-vue'
+Plug 'digitaltoad/vim-pug'
 
-" Initialize plugin system
+Plug 'edkolev/tmuxline.vim'
+" golang stuff
+"Plug 'https://github.com/fatih/vim-go.git'
+
 call plug#end()
 
-" Mikes stuff
-" Hard tab
-"set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-set modeline
-set ruler
-set termguicolors
+let g:tmuxline_powerline_separators = 0
+let g:tmuxline_preset = {
+    \'a'    : '#P',
+    \'b'    : '#(cd #{pane_current_path}; git rev-parse --abbrev-ref HEAD)',
+    \'c'    : '#H',
+    \'cwin' : '#W',
+    \'win'  : '#W',
+    \'x'    : '#{?client_prefix,Prefix,      }',
+    \'y'    : ['%a', '%e-%b-%Y', '%l:%M%p'],
+    \'z'    : '#T'}
+
 let mapleader="\<SPACE>"
-set showcmd
-set showmatch
-set showmode
-set background=dark
+set noshowmode
+set modeline
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 set splitbelow
 set splitright
-set colorcolumn=100
-"set t_8f=\[[38;2;%lu;%lu;%lum
-"set t_8b=\[[48;2;%lu;%lu;%lum
-"set termguicolors
-set noshowmode
-set number
-set relativenumber
-" syntastic stuff ************
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+set nowrap
+set timeoutlen=1000 ttimeoutlen=10
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 2
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_html_checkers = ['validator', 'w3']
-let g:syntastic_html_validator_parser = 'html5'
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_php_phpcs_args = "--standard=PSR2"
-let g:syntastic_javascript_checkers=['eslint']
-nnoremap <Leader>qa :SyntasticToggleMode<CR>
-" end syntastic stuff ***********
-colorscheme gruvbox
-let g:gruvbox_contrast_dark="hard"
-let g:gruvbox_italic=1
-"colorscheme solarized
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
 
-let g:promptline_preset = {
-        \'c' : [ promptline#slices#cwd() ],
-        \'y' : [ promptline#slices#vcs_branch() ],
-        \'warn' : [ promptline#slices#last_exit_code() ]}
-
-" phpqa stuff
-" let g:phpqa_codesniffer_args = "--standard=Joomla"
-
-" tagbar stuff
-nmap <F8> :TagbarToggle<CR>
-nnoremap <C-n> :bnext<CR>
-nnoremap <C-p> :bprevious<CR>
-
-" use % to match tags
-runtime macros/matchit.vim
-" vdebug config
 let g:vdebug_options = {
 \ 'break_on_open': 0,
 \ 'port': '9000',
 \ 'simplified_status': 0
 \ }
 
-" let g:vdebug_options = {
-" \ 'break_on_open': 0,
-" \ 'path_maps': {'/var/www/html/': '/home/mike/dharma/tbco/'},
-" \ 'port': '9000',
-" \ 'simplified_status': 0
-" \ }
+" let php_folding=1
+" set foldmethod=syntax
 
-" emmet remap c-y to vim leader
-let g:user_emmet_leader_key='<C-Z>'
+" Theme
+syntax enable
+colorscheme gruvbox
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark="medium"
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \ },
+      \ 'component': {
+      \   'filename': '%n %t',
+      \ },
+      \ }
 
-" Put at the very end of your .vimrc file.
-" https://github.com/StanAngeloff/php.vim.git
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-nmap <leader>1 :!tmux send-keys -t fred:1.1 Escape k Enter<CR><CR>
-nmap <leader>2 :!tmux send-keys -t fred:1.2 Escape k Enter<CR><CR>
-nmap <leader>3 :!tmux send-keys -t fred:1.3 Escape k Enter<CR><CR>
-nmap <leader>4 :!tmux send-keys -t fred:1.4 Escape k Enter<CR><CR>
-"execute "set <M-;>=^[;"
-inoremap <m-;> <C-o>A;
-inoremap <m-l> <C-o>a
-"nnoremap ; :
 nnoremap Y y$
-map <leader>n :NERDTreeToggle<CR>
-map <leader>f :Files<CR>
+
+:nnoremap <F8> :TagbarToggle<CR>
+
+"Insert alt commands
+inoremap <M-;> <C-o>A;
+inoremap <M-l> <C-o>a
+
+"Normal leader commands
+nnoremap <Leader>n :set number! <bar> :set rnu!<CR>
+
+"Edit & reload config
+nnoremap <Leader>ve :e ~/.config/nvim/init.vim<CR>
+nnoremap <Leader>vr :source ~/.config/nvim/init.vim<CR>
+
+nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>c :noh<CR>
+
+"Buffers
+:nnoremap <leader>bo :buffers<CR>:vert sb<Space>
+nnoremap <leader>bn :bnext<CR>
+
+"experiments
+noremap <leader>z :silent exec "!tmux resize-pane -Z"<CR>
+noremap <leader>vc :VenterToggle<CR>
